@@ -1,0 +1,51 @@
+/** {*/
+    /*border: 1px dotted white;*/
+/*}*/
+
+body {
+    background-color: lightgrey;
+}
+
+.container {
+    float: left;
+    clear: both;
+}
+
+#scoreboard > {
+    float: left;
+}
+
+#game-board {
+    height: 474px;
+    width: 474px;
+
+    padding: 4px;
+
+    border-radius: 5px;
+
+    background-color: slategrey;
+}
+
+.row {
+    float: left;
+    clear: both;
+}
+
+.tile {
+    float: left;
+
+    height: 150px;
+    width: 150px;
+
+    margin: 4px;
+
+    border-radius: 5px;
+
+    background-color: whitesmoke;
+
+    cursor: pointer;
+}
+
+.marked {
+    background-color: darkgrey;
+}
