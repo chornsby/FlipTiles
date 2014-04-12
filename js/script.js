@@ -1,4 +1,13 @@
+/*
+TODO: Support larger grid sizes.
+TODO: Add more comments to code.
+ */
+
 var size = 3;
+
+/*
+TODO: Build list of tiles using JS or have multiple lists.
+ */
 
 var tiles = ['0,0', '1,0', '2,0',
              '0,1', '1,1', '2,1',
@@ -8,26 +17,26 @@ var wonGame = false;
 
 var othersToFlip = function(tileID) {
     /* Return a list of tileIDs that also need flipping. */
-    var toFlip = [];
-    var index = tiles.indexOf(tileID);
+    var tilesToFlip = [];
+    var currentIndex = tiles.indexOf(tileID);
 
-    if (index > size - 1) {
-        toFlip.push(tiles[index-size]);
+    if (currentIndex > size - 1) {
+        tilesToFlip.push(tiles[currentIndex-size]);
     }
 
-    if (index < size * 2) {
-        toFlip.push(tiles[index+size]);
+    if (currentIndex < size * 2) {
+        tilesToFlip.push(tiles[currentIndex+size]);
     }
 
-    if (index % size > 0) {
-        toFlip.push(tiles[index-1]);
+    if (currentIndex % size > 0) {
+        tilesToFlip.push(tiles[currentIndex-1]);
     }
 
-    if (index % size < size - 1) {
-        toFlip.push(tiles[index+1]);
+    if (currentIndex % size < size - 1) {
+        tilesToFlip.push(tiles[currentIndex+1]);
     }
 
-    return toFlip;
+    return tilesToFlip;
 };
 
 var randomTile = function() {
@@ -37,6 +46,9 @@ var randomTile = function() {
     return tiles[index];
 };
 
+/*
+TODO: Neaten this function.
+ */
 $(document).ready(function() {
 
     $newGame = $('#new-game');
@@ -44,6 +56,9 @@ $(document).ready(function() {
     $movesMade = $('#moves-made');
     $won = $('#game-state');
 
+    /*
+    TODO: Work out better combination of JS and jQ.
+     */
     document.getElementById(randomTile()).classList.add('marked');
 
     var movesMade = 0;
