@@ -4,6 +4,8 @@ var tiles = ['0,0', '1,0', '2,0',
              '0,1', '1,1', '2,1',
              '0,2', '1,2', '2,2'];
 
+var wonGame = false;
+
 var othersToFlip = function(tileID) {
     /* Return a list of tileIDs that also need flipping. */
     var toFlip = [];
@@ -28,16 +30,25 @@ var othersToFlip = function(tileID) {
     return toFlip;
 };
 
+var randomTile = function() {
+    /* Return the ID of a random tile. */
+    var index = Math.floor(Math.random() * tiles.length);
+
+    return tiles[index];
+};
+
 $(document).ready(function() {
 
-    $reset = $('#reset');
+    $newGame = $('#new-game');
     $tile = $('.tile');
     $movesMade = $('#moves-made');
     $won = $('#game-state');
 
+    document.getElementById(randomTile()).classList.add('marked');
+
     var movesMade = 0;
 
-    $reset.click(function() {
+    $newGame.click(function() {
         /* Reset the game board to the start. */
 
         $tile.removeClass('marked');
@@ -45,9 +56,18 @@ $(document).ready(function() {
         movesMade = 0;
         $movesMade.text('Moves made: 0');
         $won.empty();
+
+        wonGame = false;
+
+        document.getElementById(randomTile()).classList.add('marked');
     });
 
     $tile.click(function() {
+
+        if (wonGame) {
+            return;
+        }
+
         $(this).toggleClass('marked');
         $movesMade.text('Moves made: ' + (movesMade + 1));
         movesMade++;
@@ -58,16 +78,17 @@ $(document).ready(function() {
             document.getElementById(others[i]).classList.toggle('marked');
         }
 
-        var wonYet = true;
+        /* Assume game is won until find evidence that it is not. */
+        wonGame = true;
 
         for (var j = 0; j < tiles.length; j++) {
             if (!document.getElementById(tiles[j]).classList.contains('marked')) {
-                wonYet = false;
+                wonGame = false;
                 break;
             }
         }
 
-        if (wonYet) {
+        if (wonGame) {
             $won.text('You won!');
         } else {
             $won.empty();
