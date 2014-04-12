@@ -1,7 +1,6 @@
 body {
     background-color: lightgrey;
     font-family: Arial, sans-serif;
-    text-align: center;
 }
 
 .container {
@@ -10,9 +9,17 @@ body {
     margin: auto;
 }
 
+#score-board {
+    text-align: center;
+}
+
 #score-board > * {
     width: 33.3333%;
     float: left;
+}
+
+#new-game {
+    margin-top: -2px;
 }
 
 #game-board {
@@ -46,6 +53,14 @@ body {
     cursor: pointer;
 }
 
+.tile:hover {
+    box-shadow: 0 0 5px white;
+}
+
 .marked {
     background-color: darkgrey;
+}
+
+#credits {
+    text-align: center;
 }
