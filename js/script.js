@@ -32,7 +32,8 @@ $(document).ready(function() {
 
     $reset = $('#reset');
     $tile = $('.tile');
-    $movesMade = $('#moves-made')
+    $movesMade = $('#moves-made');
+    $won = $('#game-state');
 
     var movesMade = 0;
 
@@ -43,6 +44,7 @@ $(document).ready(function() {
 
         movesMade = 0;
         $movesMade.text('Moves made: 0');
+        $won.empty();
     });
 
     $tile.click(function() {
@@ -54,6 +56,21 @@ $(document).ready(function() {
 
         for (var i = 0; i < others.length; i++) {
             document.getElementById(others[i]).classList.toggle('marked');
+        }
+
+        var wonYet = true;
+
+        for (var j = 0; j < tiles.length; j++) {
+            if (!document.getElementById(tiles[j]).classList.contains('marked')) {
+                wonYet = false;
+                break;
+            }
+        }
+
+        if (wonYet) {
+            $won.text('You won!');
+        } else {
+            $won.empty();
         }
 
     });

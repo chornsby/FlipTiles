@@ -1,17 +1,17 @@
-/** {*/
-    /*border: 1px dotted white;*/
-/*}*/
-
 body {
     background-color: lightgrey;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 .container {
-    float: left;
+    max-width: 474px;
     clear: both;
+    margin: auto;
 }
 
-#scoreboard > {
+#score-board > * {
+    width: 33.3333%;
     float: left;
 }
 
