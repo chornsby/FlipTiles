@@ -1,13 +1,9 @@
 /*
+TODO: Clean up code.
 TODO: Support larger grid sizes.
-TODO: Add more comments to code.
  */
 
 var size = 3;
-
-/*
-TODO: Build list of tiles using JS or have multiple lists.
- */
 
 var tiles = ['0,0', '1,0', '2,0',
              '0,1', '1,1', '2,1',
@@ -46,9 +42,6 @@ var randomTile = function() {
     return tiles[index];
 };
 
-/*
-TODO: Neaten this function.
- */
 $(document).ready(function() {
 
     $newGame = $('#new-game');
@@ -56,9 +49,6 @@ $(document).ready(function() {
     $movesMade = $('#moves-made');
     $won = $('#game-state');
 
-    /*
-    TODO: Work out better combination of JS and jQ.
-     */
     document.getElementById(randomTile()).classList.add('marked');
 
     var movesMade = 0;
