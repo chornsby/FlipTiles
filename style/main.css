@@ -33,17 +33,21 @@ body {
 
     border-radius: 5px;
 
-    background-color: slategrey;
+    background-color: darkgrey;
 }
 
 .row {
     float: left;
     clear: both;
+
+    /* Fix to keep tiles clickable. */
+    -webkit-transform: rotateY(0);
+    -moz-transform:    rotateY(0);
+    -ms-transform:     rotateY(0);
+    -o-transform:      rotateY(0);
+    transform:         rotateY(0);
 }
 
-/*
-TODO: Add flipping animation to tiles.
-*/
 .tile {
     float: left;
 
@@ -57,6 +61,13 @@ TODO: Add flipping animation to tiles.
     background-color: whitesmoke;
 
     cursor: pointer;
+
+    /* Control flipping and highlighting transitions. */
+    -webkit-transition: .2s -webkit-transform, .2s background-color, 0s box-shadow;
+    -moz-transition:    .2s -webkit-transform, .2s background-color, 0s box-shadow;
+    -o-transition:      .2s -webkit-transform, .2s background-color, 0s box-shadow;
+    transition:         .2s -webkit-transform, .2s background-color, 0s box-shadow;
+
 }
 
 .tile:hover {
@@ -64,7 +75,14 @@ TODO: Add flipping animation to tiles.
 }
 
 .marked {
-    background-color: darkgrey;
+    background-color: grey;
+
+    /* Card flipping transformation. */
+    -webkit-transform: rotateY(180deg);
+    -moz-transform:    rotateY(180deg);
+    -ms-transform:     rotateY(180deg);
+    -o-transform:      rotateY(180deg);
+    transform:         rotateY(180deg);
 }
 
 #credits {
