@@ -64,9 +64,9 @@ body {
 
     /* Control flipping and highlighting transitions. */
     -webkit-transition: .2s -webkit-transform, .2s background-color, 0s box-shadow;
-    -moz-transition:    .2s -webkit-transform, .2s background-color, 0s box-shadow;
-    -o-transition:      .2s -webkit-transform, .2s background-color, 0s box-shadow;
-    transition:         .2s -webkit-transform, .2s background-color, 0s box-shadow;
+    -moz-transition:    .2s -moz-transform,    .2s background-color, 0s box-shadow;
+    -o-transition:      .2s -o-transform,      .2s background-color, 0s box-shadow;
+    transition:         .2s transform,         .2s background-color, 0s box-shadow;
 
 }
 
