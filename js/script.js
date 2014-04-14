@@ -3,18 +3,26 @@ TODO: Clean up code.
 TODO: Support larger grid sizes.
  */
 
+
+
 var size = 3;
+var tileIDs = ['0,0', '1,0', '2,0', '0,1', '1,1', '2,1', '0,2', '1,2', '2,2'];
+var tiles = [];
 
-var tiles = ['0,0', '1,0', '2,0',
-             '0,1', '1,1', '2,1',
-             '0,2', '1,2', '2,2'];
+var getTilesList = function() {
+    /* Update the tiles variable with the document elements. */
 
-var wonGame = false;
+    tiles = [];
+
+    for (var i = 0; i < tileIDs.length; i++) {
+        tiles.push(document.getElementById(tileIDs[i]));
+    }
+};
 
 var othersToFlip = function(tileID) {
     /* Return a list of tileIDs that also need flipping. */
     var tilesToFlip = [];
-    var currentIndex = tiles.indexOf(tileID);
+    var currentIndex = tileIDs.indexOf(tileID);
 
     if (currentIndex > size - 1) {
         tilesToFlip.push(tiles[currentIndex-size]);
@@ -35,11 +43,22 @@ var othersToFlip = function(tileID) {
     return tilesToFlip;
 };
 
-var randomTile = function() {
-    /* Return the ID of a random tile. */
-    var index = Math.floor(Math.random() * tiles.length);
+var markRandomTile = function() {
+    /* Set the class of a random tile to 'marked'. */
+    var index = Math.floor(Math.random() * tileIDs.length);
 
-    return tiles[index];
+    tiles[index].classList.add('marked');
+};
+
+var wonGame = function() {
+    /* Return true if the game is over. */
+    for (var i = 0; i < tiles.length; i++) {
+        if (!tiles[i].classList.contains('marked')) {
+            return false;
+        }
+    }
+
+    return true;
 };
 
 $(document).ready(function() {
@@ -49,7 +68,8 @@ $(document).ready(function() {
     $movesMade = $('#moves-made');
     $won = $('#game-state');
 
-    document.getElementById(randomTile()).classList.add('marked');
+    getTilesList();
+    markRandomTile();
 
     var movesMade = 0;
 
@@ -62,14 +82,12 @@ $(document).ready(function() {
         $movesMade.text('Moves made: 0');
         $won.empty();
 
-        wonGame = false;
-
-        document.getElementById(randomTile()).classList.add('marked');
+        markRandomTile();
     });
 
     $tile.click(function() {
 
-        if (wonGame) {
+        if (wonGame()) {
             return;
         }
 
@@ -80,20 +98,11 @@ $(document).ready(function() {
         var others = othersToFlip(this.id);
 
         for (var i = 0; i < others.length; i++) {
-            document.getElementById(others[i]).classList.toggle('marked');
+            others[i].classList.toggle('marked');
+//            others[i].toggleClass('marked');
         }
 
-        /* Assume game is won until find evidence that it is not. */
-        wonGame = true;
-
-        for (var j = 0; j < tiles.length; j++) {
-            if (!document.getElementById(tiles[j]).classList.contains('marked')) {
-                wonGame = false;
-                break;
-            }
-        }
-
-        if (wonGame) {
+        if (wonGame()) {
             $won.text('You won!');
         } else {
             $won.empty();
