@@ -1,59 +1,50 @@
-/*
-TODO: Clean up code.
-TODO: Support larger grid sizes.
- */
+//var createGrid = function($gameBoard, size) {
+//    /* Create the game board HTML elements. */
+//    $gameBoard.empty();
+//
+//    for (var i = 0; i < size; i++) {
+//        $gameBoard.append('<div class="row"></div>');
+//    }
+//
+//    var $row = $('.row');
+//
+//    for (var j = 0; j < size; j++) {
+//        $row.append('<div class="tile"></div>');
+//    }
+//};
 
-
-
-var size = 3;
-var tileIDs = ['0,0', '1,0', '2,0', '0,1', '1,1', '2,1', '0,2', '1,2', '2,2'];
-var tiles = [];
-
-var getTilesList = function() {
-    /* Update the tiles variable with the document elements. */
-
-    tiles = [];
-
-    for (var i = 0; i < tileIDs.length; i++) {
-        tiles.push(document.getElementById(tileIDs[i]));
-    }
-};
-
-var othersToFlip = function(tileID) {
-    /* Return a list of tileIDs that also need flipping. */
+var othersToFlip = function(currentIndex, size) {
+    /* Return a list of indices for tiles that also need flipping. */
     var tilesToFlip = [];
-    var currentIndex = tileIDs.indexOf(tileID);
 
     if (currentIndex > size - 1) {
-        tilesToFlip.push(tiles[currentIndex-size]);
+        tilesToFlip.push(currentIndex - size);
     }
 
-    if (currentIndex < size * 2) {
-        tilesToFlip.push(tiles[currentIndex+size]);
+    if (currentIndex < size * (size - 1)) {
+        tilesToFlip.push(currentIndex + size)
     }
 
     if (currentIndex % size > 0) {
-        tilesToFlip.push(tiles[currentIndex-1]);
+        tilesToFlip.push(currentIndex - 1)
     }
 
     if (currentIndex % size < size - 1) {
-        tilesToFlip.push(tiles[currentIndex+1]);
+        tilesToFlip.push(currentIndex + 1)
     }
 
     return tilesToFlip;
 };
 
-var markRandomTile = function() {
-    /* Set the class of a random tile to 'marked'. */
-    var index = Math.floor(Math.random() * tileIDs.length);
-
-    tiles[index].classList.add('marked');
+var randomTile = function(size) {
+    /* Return the index of a random tile. */
+    return Math.floor(Math.random() * size * size);
 };
 
-var wonGame = function() {
+var wonGame = function($selector, size) {
     /* Return true if the game is over. */
-    for (var i = 0; i < tiles.length; i++) {
-        if (!tiles[i].classList.contains('marked')) {
+    for (var i = 0; i < size * size; i++) {
+        if (!$selector.eq(i).hasClass('marked')) {
             return false;
         }
     }
@@ -63,13 +54,17 @@ var wonGame = function() {
 
 $(document).ready(function() {
 
-    $newGame = $('#new-game');
-    $tile = $('.tile');
-    $movesMade = $('#moves-made');
-    $won = $('#game-state');
+    /* Set up game board. */
+//    var $gameBoard = $('#game-board');
+    var $newGame = $('#new-game');
+    var $movesMade = $('#moves-made');
+    var $won = $('#game-state');
+    var size = 3;
+//    createGrid($gameBoard, size);
 
-    getTilesList();
-    markRandomTile();
+    var $tile = $('.tile');
+
+    $tile.eq(randomTile(size)).addClass('marked');
 
     var movesMade = 0;
 
@@ -82,27 +77,28 @@ $(document).ready(function() {
         $movesMade.text('Moves made: 0');
         $won.empty();
 
-        markRandomTile();
+        $tile.eq(randomTile(size)).addClass('marked');
     });
 
     $tile.click(function() {
 
-        if (wonGame()) {
+        if (wonGame($tile, size)) {
             return;
         }
 
-        $(this).toggleClass('marked');
+        var $this = $(this);
+
+        $this.toggleClass('marked');
         $movesMade.text('Moves made: ' + (movesMade + 1));
         movesMade++;
 
-        var others = othersToFlip(this.id);
+        var others = othersToFlip($this.index('.tile'), size);
 
         for (var i = 0; i < others.length; i++) {
-            others[i].classList.toggle('marked');
-//            others[i].toggleClass('marked');
+            $tile.eq(others[i]).toggleClass('marked');
         }
 
-        if (wonGame()) {
+        if (wonGame($tile, size)) {
             $won.text('You won!');
         } else {
             $won.empty();
